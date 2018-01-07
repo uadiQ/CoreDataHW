@@ -46,6 +46,8 @@ final class DataManager {
     func deleteContact(_ contact: Contact) {
         guard let deletingIndex = getIndex(of: contact) else { print("Couldnt find contact to delete"); return }
         allContacts.remove(at: deletingIndex)
+        CoreDataManager.instance.persistentContainer.viewContext.delete(contact)
+        CoreDataManager.instance.saveContext()
         NotificationCenter.default.post(name: .contactDeleted, object: nil)
     }
     

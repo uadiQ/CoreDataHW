@@ -12,5 +12,9 @@ import CoreData
 
 @objc(Contact)
 public class Contact: NSManagedObject {
-    private static var contactCounter = 0
+    //private static var contactCounter = 0
+    
+    public var fullName: String? {
+        return (name ?? "") + " " + (surname ?? "")
+    }
 }

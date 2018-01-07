@@ -19,7 +19,5 @@ extension Contact {
     @NSManaged public var name: String?
     @NSManaged public var surname: String?
     @NSManaged public var phoneNumber: String?
-    public var fullName: String? {
-        return (name ?? "") + " " + (surname ?? "")
-    }
+
 }

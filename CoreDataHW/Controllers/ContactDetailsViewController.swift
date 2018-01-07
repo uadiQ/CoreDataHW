@@ -66,8 +66,9 @@ class ContactDetailsViewController: UIViewController {
     
     @IBAction func deletePushed(_ sender: Any) {
         guard let contact = contactToShow else { print("No contact to delete"); return }
-        CoreDataManager.instance.persistentContainer.viewContext.delete(contact)
-        CoreDataManager.instance.saveContext()
+//        CoreDataManager.instance.persistentContainer.viewContext.delete(contact)
+//        CoreDataManager.instance.saveContext()
+        DataManager.instance.deleteContact(contact)
         navigationController?.popViewController(animated: true)
     }
 }
