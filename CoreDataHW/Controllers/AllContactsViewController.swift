@@ -22,7 +22,7 @@ class AllContactsViewController: UITableViewController {
     
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(datasourceChanged), name: .contactAdded, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(datasourceChanged), name: .contactDeleted, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(datasourceChanged), name: .contactDeleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(datasourceChanged), name: .contactUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(datasourceChanged), name: .contactsLoaded, object: nil)
     }
@@ -57,11 +57,9 @@ class AllContactsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         let item = DataManager.instance.allContacts[indexPath.row]
-        CoreDataManager.instance.persistentContainer.viewContext.delete(item)
-        //tableView.deleteRows(at: [indexPath], with: .fade)
-        CoreDataManager.instance.saveContext()
-        DataManager.instance.loadContacts()
-
+        DataManager.instance.deleteContact(item)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        
     }
     
     
@@ -75,10 +73,10 @@ class AllContactsViewController: UITableViewController {
     
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetailsScreen", let destVC = segue.destination as? ContactDetailsViewController
             else { return }
         
@@ -86,7 +84,7 @@ class AllContactsViewController: UITableViewController {
         guard let index = tableView.indexPath(for: cell) else { return }
         let transferredContact = DataManager.instance.allContacts[index.row]
         destVC.contactToShow = transferredContact
-     }
+    }
     
     
 }
